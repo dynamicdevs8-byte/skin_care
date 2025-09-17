@@ -1,0 +1,402 @@
+{%- liquid
+  assign section_st = section.settings
+  assign section_width = section_st.section_width
+  assign color_scheme = section_st.color_scheme
+  if section_st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+  assign column_gap = section_st.column_gap
+  assign items_per_row = section_st.items_per_row
+  assign heading = section_st.heading
+  assign description = section_st.description
+  assign image_ratio = section_st.image_ratio
+  assign custom_ratio = section_st.custom_ratio
+  assign header_size = ''
+  if section_st.header_size == 'small'
+    assign header_size = 'h3'
+  elsif section_st.header_size == 'large'
+    assign header_size = 'h1-size'
+  endif
+  assign scroll_animation = settings.scroll_animation
+-%}
+{%- capture style -%}
+    --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }}
+  {%- endcapture -%}
+{%- capture col_style -%}
+  --col-desktop: {{ items_per_row }};{% if items_per_row > 3 %}--col-tablet: 3;{% else %}--col-tablet: {{ items_per_row }};{% endif %}
+  {% if column_gap < 15 %}--col-gap: {{ column_gap }}px;{% else %}--col-gap: 15px;--col-gap-desktop: {{  column_gap }}px;{% endif %}
+  {%- endcapture -%}
+  {%- capture style_ratio -%}
+  {%- liquid
+    assign ratio = ''
+    if image_ratio != 'adapt'
+      case image_ratio
+        when 'square'
+          assign ratio = '1/1'
+        when 'landscape'
+          assign ratio = '4/3'
+        when 'portrait'
+          assign ratio = '3/4'
+        else
+          if custom_ratio != empty
+            assign ratio = custom_ratio | replace: ':', '/'
+          else
+            assign ratio = '3/2'
+          endif
+      endcase
+    else
+      assign ratio = '3/2'
+    endif
+  -%}
+  --aspect-ratio: {{ ratio }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__products-grid color-{{ color_scheme }} gradient{{ reset_spacing }} outfit_idea"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_width }}">
+    {%- if heading != blank or description != blank -%}
+      <div class="section__header mb-33 mb-sm-20 text-{{ section_st.header_alignment }} {% if section_st.section_width == 'full_width' %} px-20{% endif %}">
+        {%- if heading != blank or description != blank -%}
+          <div class="secion__header-inner">
+            {%- if section_st.heading != blank -%}
+              <h2
+                class="section__header-heading  {% if scroll_animation != 'none' %} scroll-trigger {{ scroll_animation }}{% endif %} heading-letter-spacing {{ header_size  }} mt-0{% if section_st.description != blank %} mb-10{% else %} mb-0{% endif %}"
+                style="
+                  {%- if scroll_animation != 'none' -%}
+                    --animation-order: 0
+                  {% endif %}
+                "
+              >
+                {{ section_st.heading }}
+              </h2>
+            {% endif %}
+            {%- if section_st.description != blank -%}
+              <div
+                class="section__header-des  {% if scroll_animation != 'none' %} scroll-trigger {{ scroll_animation }}{% endif %} rich__text-m0"
+                style="
+                  {%- if scroll_animation != 'none' -%}
+                    --animation-order: 1
+                  {% endif %}
+                "
+              >
+                {{ section_st.description }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+    <div
+      class="products-grid__items flex flex-cols{% if column_gap < 31 %} row-gap-20 row-gap-md-30{% endif %} flex-wrap"
+      style="{{ col_style | strip | strip_newlines }}"
+    >
+      {% for block in section.blocks %}
+        {% liquid
+          assign image = block.settings.image
+        %}
+        <div class="relative">
+          <div
+            class=" mb-0 mb-md-0 rounded"
+            style="{{ style_ratio | strip | strip_newlines }}"
+          >
+            {% if image != blank %}
+              {%- assign image_alt = image.alt | escape | default: 'Images' -%}
+              {% render 'responsive-image',
+                type: 'banner',
+                container: section_width,
+                colunm: items_per_row,
+                image: image,
+                image_alt: image_alt
+              %}
+            {% else %}
+              {%- render 'placeholder-render' -%}
+            {% endif %}
+          </div>
+          {% assign show_product = false %}
+          {% for i in (1..5) %}
+            {%- capture product -%}product_{{i}}{%- endcapture -%}
+            {%- assign product = block.settings[product] -%}
+            {%- if product != blank -%}
+              {% assign  show_product = true %}
+            {%- endif -%}
+          {% endfor %}
+          {% if show_product == true %}
+            <idea-product class="idea-product absolute bottom-0 left-0 mb-30 ms-30 z-1">
+              <div class="flex pointer gap-10 justify-center align-center view_idea_product items-center btn btn-idea btn-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
+                  <use href="#icon-bag" />
+                 </svg>
+                <span>{{ 'general.outfit-idea.view_products' | t }}</span>
+              </div>
+              <div class="idea-product-list relative p-20 bg-white z-1 shadow rounded" style="display: none">
+                <div class="idea-product-list_header flex justify-between items-center mb-20 border-bottom">
+                  <h4 class="m-0 fs-18">{{ 'general.outfit-idea.shop_the_look' | t }}</h4>
+  
+                  <div class="close pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="14" viewBox="0 0 13 14" fill="none">
+                      <use  href="#icon-close" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="custom-scrollbar">
+                  {% for i in (1..5) %}
+                    {%- capture product -%}product_{{i}}{%- endcapture -%}
+                    {%- assign product = block.settings[product] -%}
+                    {%- if product != blank -%}
+                      {% render 'product-item',
+                        card_product: product,
+                        template_enable_rate: true,
+                        template_enable_price: true,
+                        custom_widths: '240, 120, 60',
+                        type: 'list',
+                        sizes: '60px'
+                      %}
+                    {%- endif -%}
+                  {% endfor %}
+                </div>
+               
+              </div>
+            </idea-product>
+          {% endif %}
+        
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.outfit-idea.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:sections.all.section_width.label",
+      "default": "fluid_container",
+      "options": [
+        {
+          "value": "container",
+          "label": "t:sections.all.section_width.container.label"
+        },
+        {
+          "value": "fluid_container",
+          "label": "t:sections.all.section_width.fluid_container.label"
+        },
+        {
+          "value": "stretch_width",
+          "label": "t:sections.all.section_width.stretch_width.label"
+        },
+        {
+          "value": "full_width",
+          "label": "t:sections.all.section_width.full_width.label"
+        }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_header.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.section_header.heading.label",
+      "default": "Outfit idea"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "t:sections.all.section_header.description.label",
+      "default": "Best Selling Unmatched design—superior performance and customer satisfaction in one."
+    },
+    {
+      "type": "select",
+      "id": "header_size",
+      "label": "t:sections.all.section_header.header_size.label",
+      "default": "medium",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.all.section_header.header_size.small.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.section_header.header_size.medium.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.all.section_header.header_size.large.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "t:sections.all.section_header.alignment.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.section_header.alignment.left.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.section_header.alignment.center.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.section_header.alignment.right.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:sections.all.image.image_ratio.label",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.all.image.image_ratio.adapt.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.all.image.image_ratio.square.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.all.image.image_ratio.portrait.label"
+        },
+        {
+          "value": "landscape",
+          "label": "t:sections.all.image.image_ratio.landscape.label"
+        },
+        {
+          "value": "custom",
+          "label": "t:sections.all.image.image_ratio.custom.label"
+        }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "text",
+      "id": "custom_ratio",
+      "label": "t:sections.all.image.image_ratio.custom_ratio.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.products-grid.settings.products.header"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row",
+      "label": "t:sections.all.items.items_per_row.label",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "t:sections.all.items.column_gap.label",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "t:sections.all.section_padding.reset_spacing.label",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "idea",
+      "name": "t:sections.outfit-idea.settings.block.add_idea",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.outfit-idea.settings.block.image"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "t:sections.outfit-idea.settings.select_product"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "t:sections.outfit-idea.settings.select_product"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "t:sections.outfit-idea.settings.select_product"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "t:sections.outfit-idea.settings.select_product"
+        },
+        {
+          "type": "product",
+          "id": "product_5",
+          "label": "t:sections.outfit-idea.settings.select_product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.outfit-idea.name",
+      "blocks": [
+        {
+          "type": "idea"
+        },
+        {
+          "type": "idea"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
