@@ -9,22 +9,60 @@
  */
 {
   "sections": {
-    "image_banner_xVpbrd": {
-      "type": "image-banner",
-      "name": "t:sections.image-banner.presets.name",
+    "slideshow_Dpncbc": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_DpYHHz": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/makeup-powders-and-brush.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        },
+        "slide_7GaH7B": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/beauty-products-and-makeup-on-black-background.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_DpYHHz",
+        "slide_7GaH7B"
+      ],
+      "name": "t:sections.slideshow.presets.name",
       "settings": {
-        "image": "shopify://shop_images/makeup-powders-and-brush.jpg",
-        "image_2": "shopify://shop_images/beauty-products-and-makeup-on-black-background.jpg",
-        "image_overlay_opacity": 0,
-        "image_height": "small",
+        "layout": "grid",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
         "image_behavior": "none",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-2",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
       }
     },
     "best-sellers": {
@@ -85,7 +123,7 @@
     }
   },
   "order": [
-    "image_banner_xVpbrd",
+    "slideshow_Dpncbc",
     "best-sellers",
     "features-section"
   ]
