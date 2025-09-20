@@ -1,240 +1,94 @@
+{% comment %}
+  Best Sellers section for skincare storefront
+{% endcomment %}
+
 {{ 'section-best-sellers.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-<div class="best-sellers color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+<section id="shopify-section-{{ section.id }}" class="shopify-section section best-sellers color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
-    <div class="best-sellers__header">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="best-sellers__title h2">{{ section.settings.heading | escape }}</h2>
-      {%- endif -%}
-      {%- if section.settings.description != blank -%}
-        <p class="best-sellers__description">{{ section.settings.description | escape }}</p>
-      {%- endif -%}
-    </div>
+    <header class="best-sellers__header">
+      {% if section.settings.heading != blank %}
+        <h2 class="best-sellers__title h2">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <p class="best-sellers__description text-body">{{ section.settings.description }}</p>
+      {% endif %}
+    </header>
 
-    <div class="best-sellers__products">
-      <div class="best-sellers__slider-nav">
-        <button class="best-sellers__slider-btn" id="prevBtn" aria-label="Previous products">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <button class="best-sellers__slider-btn" id="nextBtn" aria-label="Next products">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      
-      <div class="best-sellers__slider" id="productSlider">
-        <div class="best-sellers__slider-container" id="sliderContainer">
-          {%- for product in collections[section.settings.collection].products limit: section.settings.products_to_show -%}
-          <div class="best-sellers__product">
-            <div class="best-sellers__product-image">
-              {%- if product.featured_media -%}
-                <a href="{{ product.url }}" class="best-sellers__product-link">
-                  <img
-                    src="{{ product.featured_media | image_url: width: 300 }}"
-                    alt="{{ product.featured_media.alt | escape }}"
-                    loading="lazy"
-                    width="300"
-                    height="300"
-                  >
+    {% assign collection = collections[section.settings.collection] %}
+    {% if collection and collection.products_count > 0 %}
+      <div class="best-sellers__products">
+        <div class="best-sellers__slider">
+          <div class="best-sellers__slider-container" tabindex="-1">
+            {% for product in collection.products limit: section.settings.products_to_show %}
+              <article class="best-sellers__product contains-card--product" aria-labelledby="product-title-{{ product.id }}">
+                <a href="{{ product.url }}" class="best-sellers__product-image">
+                  {% if product.featured_image %}
+                    <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" />
+                  {% endif %}
                 </a>
-              {%- endif -%}
-              
-              {%- if product.compare_at_price > product.price -%}
-                <span class="best-sellers__badge best-sellers__badge--sale">Sale</span>
-              {%- elsif product.tags contains 'new' -%}
-                <span class="best-sellers__badge best-sellers__badge--new">New</span>
-              {%- endif -%}
-            </div>
-            
-            <div class="best-sellers__product-info">
-              <h3 class="best-sellers__product-title">
-                <a href="{{ product.url }}" class="best-sellers__product-link">{{ product.title | escape }}</a>
-              </h3>
-              
-              <div class="best-sellers__product-rating">
-                <div class="best-sellers__stars">
-                  <span class="best-sellers__star">★</span>
-                  <span class="best-sellers__star">★</span>
-                  <span class="best-sellers__star">★</span>
-                  <span class="best-sellers__star">★</span>
-                  <span class="best-sellers__star best-sellers__star--empty">☆</span>
-                </div>
-                <span class="best-sellers__rating-count">({{ product.metafields.reviews.rating_count | default: 0 }})</span>
-              </div>
-              
-              <div class="best-sellers__product-price">
-                {%- if product.compare_at_price > product.price -%}
-                  <span class="best-sellers__price best-sellers__price--sale">{{ product.price | money }}</span>
-                  <span class="best-sellers__price best-sellers__price--compare">{{ product.compare_at_price | money }}</span>
-                {%- else -%}
-                  <span class="best-sellers__price">{{ product.price | money }}</span>
-                {%- endif -%}
-              </div>
-              
-              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                <button type="submit" class="best-sellers__add-to-cart button button--primary">
-                  Add to Cart
-                </button>
-              </form>
-            </div>
-          </div>
-        {%- endfor -%}
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="best-sellers__product-info">
+                  <h3 id="product-title-{{ product.id }}" class="best-sellers__product-title h5">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h3>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const slider = document.getElementById('productSlider');
-  const container = document.getElementById('sliderContainer');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  
-  if (!slider || !container || !prevBtn || !nextBtn) return;
-  
-  const products = container.querySelectorAll('.best-sellers__product');
-  const totalProducts = products.length;
-  let currentIndex = 0;
-  let productsPerView = 4;
-  
-  function getProductsPerView() {
-    if (window.innerWidth <= 480) return 1;
-    if (window.innerWidth <= 749) return 2;
-    return 4;
-  }
-  
-  function updateSlider() {
-    productsPerView = getProductsPerView();
-    const translateX = -(currentIndex * (100 / productsPerView));
-    container.style.transform = `translateX(${translateX}%)`;
-    
-    prevBtn.disabled = currentIndex === 0;
-    nextBtn.disabled = currentIndex >= totalProducts - productsPerView;
-  }
-  
-  prevBtn.addEventListener('click', function() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateSlider();
-    }
-  });
-  
-  nextBtn.addEventListener('click', function() {
-    const maxIndex = totalProducts - getProductsPerView();
-    if (currentIndex < maxIndex) {
-      currentIndex++;
-      updateSlider();
-    }
-  });
-  
-  // Initialize
-  updateSlider();
-  
-  // Handle window resize
-  window.addEventListener('resize', function() {
-    updateSlider();
-  });
-});
-</script>
+                  <div class="best-sellers__product-rating">
+                    <div class="best-sellers__stars">
+                      <span class="best-sellers__star">★</span>
+                      <span class="best-sellers__star">★</span>
+                      <span class="best-sellers__star">★</span>
+                      <span class="best-sellers__star">★</span>
+                      <span class="best-sellers__star best-sellers__star--empty">☆</span>
+                    </div>
+                    <span class="best-sellers__rating-count">({{ product.metafields.reviews.rating_count | default: 0 }})</span>
+                  </div>
+
+                  <div class="best-sellers__product-price">
+                    {% render 'price', product: product, use_variant: true, show_badges: false %}
+                  </div>
+                </div>
+                {% assign first_available_variant = product.variants | where: 'available', true | first %}
+                  {% if first_available_variant %}
+                    <form class="best-sellers__add-form" action="/cart/add" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="id" value="{{ first_available_variant.id }}">
+                      <button type="submit" class="best-sellers__add-to-cart button button--primary">
+                        {{ 'products.product.add_to_cart' | t }}
+                      </button>
+                    </form>
+                  {% else %}
+                    <button class="best-sellers__add-to-cart button" disabled>
+                      {{ 'products.product.sold_out' | t }}
+                    </button>
+                  {% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px; }
+  </style>
+</section>
 
 {% schema %}
 {
   "name": "Best Sellers",
-  "tag": "section",
-  "class": "section",
   "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "default": "Products",
-      "label": "Heading"
-    },
-    {
-      "type": "text",
-      "id": "description",
-      "default": "Discover our most-loved skincare essentials",
-      "label": "Description"
-    },
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Collection"
-    },
-    {
-      "type": "range",
-      "id": "products_to_show",
-      "min": 2,
-      "max": 8,
-      "step": 1,
-      "default": 4,
-      "label": "Number of products to show"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_all",
-      "default": true,
-      "label": "Show 'View All' button"
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "default": "View All Products",
-      "label": "View All button text"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Section padding"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 36
-    }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Products" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Discover our most-loved skincare essentials" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 8 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show view all button", "default": true },
+    { "type": "text", "id": "view_all_text", "label": "View all text", "default": "View All Products" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 80 }
   ],
   "presets": [
-    {
-      "name": "Best Sellers"
-    }
+    { "name": "Best Sellers" }
   ]
 }
 {% endschema %}
