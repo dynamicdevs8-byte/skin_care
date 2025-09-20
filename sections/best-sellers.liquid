@@ -1,0 +1,180 @@
+{{ 'section-best-sellers.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="best-sellers color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="best-sellers__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="best-sellers__title h2">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="best-sellers__description">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="best-sellers__products">
+      <div class="best-sellers__slider">
+        {%- for product in collections[section.settings.collection].products limit: section.settings.products_to_show -%}
+          <div class="best-sellers__product">
+            <div class="best-sellers__product-image">
+              {%- if product.featured_media -%}
+                <a href="{{ product.url }}" class="best-sellers__product-link">
+                  <img
+                    src="{{ product.featured_media | image_url: width: 300 }}"
+                    alt="{{ product.featured_media.alt | escape }}"
+                    loading="lazy"
+                    width="300"
+                    height="300"
+                  >
+                </a>
+              {%- endif -%}
+              
+              {%- if product.compare_at_price > product.price -%}
+                <span class="best-sellers__badge best-sellers__badge--sale">Sale</span>
+              {%- elsif product.tags contains 'new' -%}
+                <span class="best-sellers__badge best-sellers__badge--new">New</span>
+              {%- endif -%}
+            </div>
+            
+            <div class="best-sellers__product-info">
+              <h3 class="best-sellers__product-title">
+                <a href="{{ product.url }}" class="best-sellers__product-link">{{ product.title | escape }}</a>
+              </h3>
+              
+              <div class="best-sellers__product-rating">
+                <div class="best-sellers__stars">
+                  <span class="best-sellers__star">★</span>
+                  <span class="best-sellers__star">★</span>
+                  <span class="best-sellers__star">★</span>
+                  <span class="best-sellers__star">★</span>
+                  <span class="best-sellers__star best-sellers__star--empty">☆</span>
+                </div>
+                <span class="best-sellers__rating-count">({{ product.metafields.reviews.rating_count | default: 0 }})</span>
+              </div>
+              
+              <div class="best-sellers__product-price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="best-sellers__price best-sellers__price--sale">{{ product.price | money }}</span>
+                  <span class="best-sellers__price best-sellers__price--compare">{{ product.compare_at_price | money }}</span>
+                {%- else -%}
+                  <span class="best-sellers__price">{{ product.price | money }}</span>
+                {%- endif -%}
+              </div>
+              
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <button type="submit" class="best-sellers__add-to-cart button button--primary">
+                  Add to Cart
+                </button>
+              </form>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_view_all -%}
+      <div class="best-sellers__view-all">
+        <a href="{{ collections[section.settings.collection].url }}" class="best-sellers__view-all-button button button--secondary">
+          {{ section.settings.view_all_text | default: 'View All Products' }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Best Sellers",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Best Sellers",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "Discover our most-loved skincare essentials",
+      "label": "Description"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "label": "Number of products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "Show 'View All' button"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "default": "View All Products",
+      "label": "View All button text"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Sellers"
+    }
+  ]
+}
+{% endschema %}

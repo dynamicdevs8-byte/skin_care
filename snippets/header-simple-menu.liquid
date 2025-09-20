@@ -1,0 +1,26 @@
+{% comment %}
+  Renders a simple three-item menu for the header.
+
+  Usage:
+  {% render 'header-simple-menu' %}
+{% endcomment %}
+
+<nav class="header__inline-menu">
+  <ul class="list-menu list-menu--inline" role="list">
+    <li>
+      <a href="{{ routes.root_url }}" class="header__menu-item list-menu__item link focus-inset">
+        <span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="{{ routes.all_products_collection_url }}" class="header__menu-item list-menu__item link focus-inset">
+        <span>Catalog</span>
+      </a>
+    </li>
+    <li>
+      <a href="/pages/contact" class="header__menu-item list-menu__item link focus-inset">
+        <span>Contact</span>
+      </a>
+    </li>
+  </ul>
+</nav>
