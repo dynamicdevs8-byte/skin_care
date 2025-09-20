@@ -13,9 +13,10 @@
       "type": "image-banner",
       "name": "t:sections.image-banner.presets.name",
       "settings": {
-        "image": "shopify://shop_images/download_23.jpg",
+        "image": "shopify://shop_images/makeup-powders-and-brush.jpg",
+        "image_2": "shopify://shop_images/beauty-products-and-makeup-on-black-background.jpg",
         "image_overlay_opacity": 0,
-        "image_height": "medium",
+        "image_height": "small",
         "image_behavior": "none",
         "desktop_content_position": "middle-center",
         "desktop_content_alignment": "center",
