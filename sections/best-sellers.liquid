@@ -26,8 +26,22 @@
     </div>
 
     <div class="best-sellers__products">
-      <div class="best-sellers__slider">
-        {%- for product in collections[section.settings.collection].products limit: section.settings.products_to_show -%}
+      <div class="best-sellers__slider-nav">
+        <button class="best-sellers__slider-btn" id="prevBtn" aria-label="Previous products">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="best-sellers__slider-btn" id="nextBtn" aria-label="Next products">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="best-sellers__slider" id="productSlider">
+        <div class="best-sellers__slider-container" id="sliderContainer">
+          {%- for product in collections[section.settings.collection].products limit: section.settings.products_to_show -%}
           <div class="best-sellers__product">
             <div class="best-sellers__product-image">
               {%- if product.featured_media -%}
@@ -85,16 +99,62 @@
         {%- endfor -%}
       </div>
     </div>
-
-    {%- if section.settings.show_view_all -%}
-      <div class="best-sellers__view-all">
-        <a href="{{ collections[section.settings.collection].url }}" class="best-sellers__view-all-button button button--secondary">
-          {{ section.settings.view_all_text | default: 'View All Products' }}
-        </a>
-      </div>
-    {%- endif -%}
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.getElementById('productSlider');
+  const container = document.getElementById('sliderContainer');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  
+  if (!slider || !container || !prevBtn || !nextBtn) return;
+  
+  const products = container.querySelectorAll('.best-sellers__product');
+  const totalProducts = products.length;
+  let currentIndex = 0;
+  let productsPerView = 4;
+  
+  function getProductsPerView() {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 749) return 2;
+    return 4;
+  }
+  
+  function updateSlider() {
+    productsPerView = getProductsPerView();
+    const translateX = -(currentIndex * (100 / productsPerView));
+    container.style.transform = `translateX(${translateX}%)`;
+    
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex >= totalProducts - productsPerView;
+  }
+  
+  prevBtn.addEventListener('click', function() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateSlider();
+    }
+  });
+  
+  nextBtn.addEventListener('click', function() {
+    const maxIndex = totalProducts - getProductsPerView();
+    if (currentIndex < maxIndex) {
+      currentIndex++;
+      updateSlider();
+    }
+  });
+  
+  // Initialize
+  updateSlider();
+  
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    updateSlider();
+  });
+});
+</script>
 
 {% schema %}
 {
@@ -105,7 +165,7 @@
     {
       "type": "text",
       "id": "heading",
-      "default": "Best Sellers",
+      "default": "Products",
       "label": "Heading"
     },
     {
