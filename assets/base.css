@@ -8,6 +8,116 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+/* Global rule to hide svg-wrapper header__icon-close span for entire site */
+span.svg-wrapper.header__icon-close,
+.svg-wrapper.header__icon-header__icon-close,
+span[class*="svg-wrapper"][class*="header__icon-close"],
+span.svg-wrapper[class*="header__icon-close"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* Global rule to hide X icon in search bar when opened */
+.search-modal .search-modal__close-button,
+.search-modal .modal__close-button,
+.search-modal .header__icon-close,
+.search-modal .svg-wrapper.header__icon-close,
+.search-modal span.svg-wrapper.header__icon-close,
+.search-modal .search__button,
+.search-modal .field__button,
+.search-modal .search__clear-button,
+.search-modal .search__reset-button,
+.search-modal .search-input__clear,
+.search-modal .search-bar__clear,
+.search-modal .search-field__clear,
+.search-modal .search-form__clear,
+.search-modal .search-input__close,
+.search-modal .search-icon-close,
+.search-modal .search-clear-icon,
+.search-modal .search-reset-icon,
+.search-modal .search-close-icon {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* Global Custom Cart Icon Styling - Simple Outline Design */
+.header__icon--cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  background: transparent;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.header__icon--cart:hover {
+  transform: scale(1.05);
+}
+
+.header__icon--cart .svg-wrapper {
+  width: 2.8rem;
+  height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__icon--cart .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(var(--color-foreground));
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Global Cart Count Badge Styling - Small Circle */
+.cart-count-bubble {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 1.6rem;
+  min-height: 1.6rem;
+  z-index: 3;
+  border: 2px solid rgb(var(--color-background));
+}
+
+.cart-count-bubble span {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);

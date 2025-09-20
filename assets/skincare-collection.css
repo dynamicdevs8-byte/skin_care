@@ -1,0 +1,705 @@
+/* Skincare Collection Page Styling */
+
+/* Product Grid Container */
+.product-grid-container {
+  background: linear-gradient(135deg, rgba(var(--color-background), 0.95) 0%, rgba(var(--color-background), 0.98) 100%);
+  padding: 2rem 0;
+  border-radius: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Collection Grid */
+.collection .product-grid {
+  gap: 2.5rem;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+@media screen and (min-width: 750px) {
+  .collection .product-grid {
+    gap: 3rem;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* Grid Items - Remove all spacing */
+.grid__item {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Remove any right-side spacing from grid items */
+.grid__item:last-child {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure product grid has no right spacing */
+.collection .product-grid {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Product Cards Enhancement */
+.grid__item .card-wrapper {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1.2rem;
+  overflow: hidden;
+  background: rgb(var(--color-background));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(var(--color-foreground), 0.06);
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Add subtle glow effect for skincare products */
+.grid__item .card-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.grid__item .card-wrapper:hover::before {
+  opacity: 1;
+}
+
+.grid__item .card-wrapper:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: rgba(var(--color-foreground), 0.1);
+}
+
+/* Product Card Inner */
+.card--card .card__inner {
+  border-radius: 1.2rem;
+  border: none;
+  background: linear-gradient(145deg, rgb(var(--color-background)) 0%, rgba(var(--color-background), 0.95) 100%);
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Ensure card media takes full width */
+.card--card .card__inner .card__media {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 300px;
+  box-sizing: border-box;
+}
+
+/* Product Images */
+.card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem 1rem 0 0;
+  background: linear-gradient(135deg, rgba(var(--color-background), 0.1) 0%, rgba(var(--color-background), 0.05) 100%);
+  aspect-ratio: 1;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.card__media .media {
+  height: 100% !important;
+  width: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.card__media .media img {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1rem 1rem 0 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+/* Remove any right-side spacing from product images */
+.card__media {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.card__media .media {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure no spacing on the right side of the entire card */
+.grid__item .card-wrapper {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.grid__item .card-wrapper .card__inner {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.card-wrapper:hover .card__media .media img {
+  transform: scale(1.05);
+}
+
+/* Product Information */
+.card__information {
+  padding: 2rem 1.5rem 2.5rem;
+  background: linear-gradient(180deg, rgba(var(--color-background), 0.98) 0%, rgb(var(--color-background)) 100%);
+  border-radius: 0 0 1rem 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Add subtle pattern overlay for skincare elegance */
+.card__information::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 20% 80%, rgba(var(--color-foreground), 0.02) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(var(--color-foreground), 0.02) 0%, transparent 50%);
+  border-radius: 0 0 1rem 1rem;
+  pointer-events: none;
+}
+
+/* Product Title */
+.card__heading {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+  color: rgb(var(--color-foreground));
+  text-align: left;
+}
+
+.card__heading a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.card__heading a:hover {
+  color: rgba(var(--color-foreground), 0.8);
+}
+
+/* Simple Price Display - Just plain text, no button styling */
+.card-information .price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+
+/* Show only the price amount - hide any "From" prefix */
+.card-information .price .price__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-information .price .price-item {
+  display: inline !important;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-information .price .price-item--regular,
+.card-information .price .price-item--sale {
+  display: inline !important;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hide any "From" text or prefixes */
+.card-information .price *:contains("From"),
+.card-information .price .price-item::before,
+.card-information .price .price__regular,
+.card-information .price .price__sale {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Hide any text that contains "From" */
+.card-information .price *[class*="from"],
+.card-information .price *[class*="From"] {
+  display: none !important;
+}
+
+/* Remove all button-like styling from price elements */
+.card-information .price,
+.card-information .price *,
+.card-information .price .price__container,
+.card-information .price .price-item,
+.card-information .price .price-item--regular,
+.card-information .price .price-item--sale {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: default !important;
+  text-decoration: none !important;
+}
+
+/* Ensure price is just plain text */
+.card-information .price {
+  display: block !important;
+  text-align: left !important;
+  font-size: 1.8rem !important;
+  font-weight: 400 !important;
+  color: rgb(var(--color-foreground)) !important;
+  margin-top: 1rem !important;
+}
+
+/* Show ADD TO CART button for all products */
+.card-information .quick-add,
+.card-information .quick-add__submit,
+.card-information .product-form__buttons,
+.card-information .product-form__buttons .btn,
+.card-information .product-form__buttons .button,
+.card-information .product-form__buttons input[type="submit"],
+.card-information .product-form__buttons button,
+.card-information button,
+.card-information .btn,
+.card-information .button,
+.card-information input[type="submit"],
+.card-information input[type="button"],
+.quick-add,
+.quick-add__submit,
+.product-form__buttons,
+.card-information .product-form,
+.card-information .product-form__buttons,
+.card-information .product-form__buttons * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Rating Stars */
+.card-information .rating {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  gap: 0.2rem;
+}
+
+.card-information .rating .icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: #ffd700;
+}
+
+/* ADD TO CART Button Styling */
+.card-information .quick-add__submit,
+.card-information .product-form__buttons button,
+.card-information .product-form__buttons .button,
+.card-information .product-form__buttons input[type="submit"],
+.card-information button {
+  background: linear-gradient(135deg, rgba(var(--color-foreground), 0.9) 0%, rgba(var(--color-foreground), 0.8) 100%);
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: rgb(var(--color-background));
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  width: 100%;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-information .quick-add__submit:hover,
+.card-information .product-form__buttons button:hover,
+.card-information .product-form__buttons .button:hover,
+.card-information .product-form__buttons input[type="submit"]:hover,
+.card-information button:hover {
+  background: linear-gradient(135deg, rgba(var(--color-foreground), 1) 0%, rgba(var(--color-foreground), 0.9) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(var(--color-foreground), 0.3);
+}
+
+/* Ensure ADD TO CART button is visible and properly styled */
+.card-information .product-form__buttons {
+  display: block !important;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.card-information .quick-add {
+  display: block !important;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+/* Hide cross icon in header, search bar, and contact page */
+.header__icon-close,
+.header__search .header__icon-close,
+.search-modal__close-button,
+.modal__close-button,
+.header__search .svg-wrapper.header__icon-close,
+.header__search summary .header__icon-close,
+.search-modal .search-modal__close-button,
+.search-modal .modal__close-button,
+.header__search details[open] .header__icon-close,
+.header__search .header__icon--search .header__icon-close,
+/* Contact page cross icons */
+.contact-form .modal__close-button,
+.contact-form .header__icon-close,
+.contact-form .search-modal__close-button,
+.contact-form .modal__close-button,
+.contact-form .svg-wrapper.header__icon-close,
+.contact-form summary .header__icon-close,
+.contact-form .search-modal .search-modal__close-button,
+.contact-form .search-modal .modal__close-button,
+.contact-form .header__search details[open] .header__icon-close,
+.contact-form .header__search .header__icon--search .header__icon-close,
+/* Hide X icon next to search icon on all pages */
+.header__icons .header__icon-close,
+.header__icons .svg-wrapper.header__icon-close,
+.header__icons-section .header__icon-close,
+.header__icons-section .svg-wrapper.header__icon-close,
+.header__search-icon .header__icon-close,
+.header__search-icon .svg-wrapper.header__icon-close,
+.header__search .header__icon-close,
+.header__search .svg-wrapper.header__icon-close,
+/* Target any X icon in header icons area */
+.header__icons > *:nth-child(2),
+.header__icons > *:nth-child(3),
+.header__icons .header__icon:nth-child(2),
+.header__icons .header__icon:nth-child(3),
+/* Hide any close/X icons globally */
+[class*="close"],
+[class*="icon-close"],
+[class*="icon-x"],
+[class*="x-icon"],
+[class*="cross"],
+[class*="icon-cross"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Specifically hide svg-wrapper header__icon-close span on all pages */
+span.svg-wrapper.header__icon-close,
+.svg-wrapper.header__icon-close,
+span[class*="svg-wrapper"][class*="header__icon-close"],
+span.svg-wrapper[class*="header__icon-close"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* Hide X icon in search bar when opened */
+.search-modal .search-modal__close-button,
+.search-modal .modal__close-button,
+.search-modal .header__icon-close,
+.search-modal .svg-wrapper.header__icon-close,
+.search-modal span.svg-wrapper.header__icon-close,
+.search-modal .search__button,
+.search-modal .field__button,
+.search-modal .search__clear-button,
+.search-modal .search__reset-button,
+.search-modal .search-input__clear,
+.search-modal .search-bar__clear,
+.search-modal .search-field__clear,
+.search-modal .search-form__clear,
+.search-modal .search-input__close,
+.search-modal .search-icon-close,
+.search-modal .search-clear-icon,
+.search-modal .search-reset-icon,
+.search-modal .search-close-icon,
+.search-modal .search__input-clear,
+.search-modal .search-bar__clear,
+.search-modal .search-field__clear,
+.search-modal .search-form__clear,
+.search-modal .search-input__close,
+.search-modal .search-icon-close,
+.search-modal .search-clear-icon,
+.search-modal .search-reset-icon,
+.search-modal .search-close-icon {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* Badge Styling */
+.card__badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+/* Custom Cart Icon Styling - Simple Outline Design */
+.header__icon--cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  background: transparent;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.header__icon--cart:hover {
+  transform: scale(1.05);
+}
+
+.header__icon--cart .svg-wrapper {
+  width: 2.8rem;
+  height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__icon--cart .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(var(--color-foreground));
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Cart Count Badge Styling - Small Circle */
+.cart-count-bubble {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 1.6rem;
+  min-height: 1.6rem;
+  z-index: 3;
+  border: 2px solid rgb(var(--color-background));
+}
+
+.cart-count-bubble span {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Collection Title Enhancement */
+.collection__title .title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgb(var(--color-foreground)) 0%, rgba(var(--color-foreground), 0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.collection__title .title::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6rem;
+  height: 0.3rem;
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--color-foreground), 0.3) 50%, transparent 100%);
+  border-radius: 0.15rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 749px) {
+  .collection .product-grid {
+    gap: 2rem;
+    padding: 0 0.5rem;
+  }
+  
+  .card__information {
+    padding: 1.5rem 1rem 2rem;
+  }
+  
+  .card__heading {
+    font-size: 1.4rem;
+  }
+  
+  .card-information .price {
+    font-size: 1.6rem;
+    padding: 0.6rem 1rem;
+  }
+  
+  .collection__title .title {
+    font-size: 2.8rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .collection .product-grid {
+    gap: 3.5rem;
+  }
+  
+  .card__information {
+    padding: 2.5rem 2rem 3rem;
+  }
+  
+  .card__heading {
+    font-size: 1.8rem;
+  }
+  
+  .card-information .price {
+    font-size: 2rem;
+  }
+}
+
+/* Loading State Enhancement */
+.collection.loading .loading-overlay {
+  background: linear-gradient(135deg, rgba(var(--color-background), 0.9) 0%, rgba(var(--color-background), 0.95) 100%);
+  backdrop-filter: blur(10px);
+}
+
+/* Empty State Styling */
+.collection--empty .title-wrapper {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(var(--color-background), 0.5) 0%, rgba(var(--color-background), 0.8) 100%);
+  border-radius: 1.5rem;
+  margin: 2rem 0;
+}
+
+.collection--empty .title {
+  color: rgba(var(--color-foreground), 0.7);
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+
+/* Pagination Enhancement */
+.pagination {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.pagination__list {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination__item .pagination__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.8rem;
+  background: linear-gradient(135deg, rgba(var(--color-foreground), 0.1) 0%, rgba(var(--color-foreground), 0.05) 100%);
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+}
+
+.pagination__item .pagination__link:hover,
+.pagination__item .pagination__link[aria-current="page"] {
+  background: linear-gradient(135deg, rgba(var(--color-foreground), 0.9) 0%, rgba(var(--color-foreground), 0.8) 100%);
+  color: rgb(var(--color-background));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(var(--color-foreground), 0.2);
+}

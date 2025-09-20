@@ -119,14 +119,14 @@
 
 .card--media .card__inner .card__content {
   position: relative;
-  padding: calc(var(--image-padding) + 1rem);
+  padding: calc(var(--image-padding) + 0rem);
 }
 
 .card__content {
   display: grid;
   grid-template-rows: minmax(0, 1fr) max-content minmax(0, 1fr);
   padding: 1rem;
-  width: 100%;
+  /* width: 100%; */
   flex-grow: 1;
 }
 
